@@ -1,0 +1,75 @@
+FORMAT: 1A
+
+# U of T Course API
+The U of T Course API provides RESTful interface for data about courses offered by the University of Toronto.
+
+## Versioning
+
+It's assumed that any data in the course catalogue changes only _once per semester_. 
+The API is versioned as follows:
+
+```
+/v{year}{semester}/
+```
+
+Where `year` is the year (e.g. 2015) and `semester` is either `F`, `W`, or `S`.
+
+For example:
+- `/v2015W/courses`
+- `/v2009F/courses/CSC108H1F`
+
+## Course [/courses/{id}]
+
+A single course in a semester.
+
++ Model (application/json)
+    
+    + Body
+    
+            {
+                "id": "123",
+                "code": "CSC108H1"
+            }
+            
+    + Schema
+    
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "A unique identifier for the course",
+                        "type": "string"
+                    },
+                    "code": {
+                        "description": "The official course code, without the semester indicator"
+                        "type": "string"
+                    }
+                },
+                "required": ["id", "code"]
+            }
+
++ Parameters
+    + id (required, string, `123`) ... A unique identifier for the course
+
+### Retrieve a Course [GET]
++ Response 200
+
+    [Course][]
+
+## Courses Collection [/courses]
+
+A list of courses in a semester.
+
+### List all Courses [GET]
++ Response 200 (application/json)
+
+        [
+            {
+                "id": "123",
+                "code": "CSC108H1"
+            },
+            {
+                "id": "456",
+                "code": "CSC148H1"
+            }
+        ]
